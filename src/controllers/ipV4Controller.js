@@ -1,10 +1,10 @@
 
 
-const ip = require("ip");
+// const ip = require("ip");
 // const os = require("os");
 
-function getIPV4() {
-return ip.address();
+// function getIPV4() {
+// return ip.address();
 
   // const interfaces = os.networkInterfaces();
   // for (const name of Object.keys(interfaces)) {
@@ -14,6 +14,6 @@ return ip.address();
   //     }
   //   }
   // }
-}
+// }
 
-module.exports = {getIPV4};
+// module.exports = {getIPV4};

@@ -11,7 +11,7 @@ const authRoutes = require("./src/routes/auth");
 const userRoutes = require("./src/routes/users");
 const { initSocket } = require("./src/config/socket");
 // const ipv4Routes = require("./src/routes/ipv4Route");
-const { getIPV4 } = require("./src/controllers/ipV4Controller"); 
+// const { getIPV4 } = require("./src/controllers/ipV4Controller"); 
 
 
 // ipv4
@@ -70,11 +70,11 @@ app.use("/api/users", userRoutes);
 
 const PORT = "3000";
 server.listen(PORT, () => { 
-  const ip = getIPV4();
-  console.log(`✅ Server running on:`);
-  console.log(`   • IPV4:       ${ip}`);
-  console.log(`   • Localhost: http://localhost:${PORT}`);
-  console.log(`   • LAN:       http://${ip}:${PORT}`);
+  // const ip = getIPV4();
+  console.log(`✅ Server running on:`, PORT);
+  // console.log(`   • IPV4:       ${ip}`);
+  // console.log(`   • Localhost: http://localhost:${PORT}`);
+  // console.log(`   • LAN:       http://${ip}:${PORT}`);
 });
 
 
