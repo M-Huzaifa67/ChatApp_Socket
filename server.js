@@ -69,6 +69,9 @@ app.use("/api/users", userRoutes);
 //   });
 // });
 
+
+    // "server": "nodemon server.js",
+
 const PORT = process.env.PORT || "5000";
 server.listen(PORT, () => { 
   // const ip = getIPV4();
