@@ -1,4 +1,22 @@
 
 
+# .replit
+
+# Language environment
 language = "nodejs"
+
+# Command to run your app
 run = "npm start"
+
+# Optional: tell Replit which package manager to use
+[env]
+NODE_ENV = "development"
+
+# Use Replit's built-in package manager
+[packager]
+packageManager = "npm"
+
+# Optional: specify the entrypoint for shell/npm
+[interpreter]
+command = ["npm", "start"]
+
