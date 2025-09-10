@@ -5,6 +5,7 @@ const cors = require('cors');
 const app = express();
 app.use(cors());
 app.use(express.json());
+require('dotenv').config();
 
 // 3 -
 const authRoutes = require("./src/routes/auth");
@@ -68,7 +69,7 @@ app.use("/api/users", userRoutes);
 //   });
 // });
 
-const PORT = "3000";
+const PORT = process.env.PORT || "3000";
 server.listen(PORT, () => { 
   // const ip = getIPV4();
   console.log(`✅ Server running on:`, PORT);
