@@ -1,35 +1,51 @@
 const express = require('express');
 const http = require('http');
-const { Server } = require('socket.io');
+// const { Server } = require('socket.io');
 const cors = require('cors');
 const app = express();
 app.use(cors());
-app.use(express.json());
+app.use(express.json()); // parse application/json
+app.use(express.urlencoded({ extended: true }));
 require('dotenv').config();
 
-// 3 -
+// Routes
 const authRoutes = require("./src/routes/auth");
 const userRoutes = require("./src/routes/users");
+
+// Socket initialization
 const { initSocket } = require("./src/config/socket");
 // const ipv4Routes = require("./src/routes/ipv4Route");
-// const { getIPV4 } = require("./src/controllers/ipV4Controller"); 
-
+// const { getIPV4 } = require("./src/controllers/ipV4Controller");
 
 // ipv4
 // app.use("/api/ipv4", ipv4Routes);
 // console.log("Laptop/Server IP:", getIPV4());
 
-
-
-// 1 - REST routes
-app.use("/api/auth", authRoutes); // http://10.201.216.212/3000/api/auth/signup
-
+// Socket.io setup
 const server = http.createServer(app);
 const io = require("socket.io")(server, { cors: { origin: "*" } });
-
-// 3 -
 initSocket(io);
-app.use("/api/users", userRoutes);
+
+
+// Root route
+app.get('/', (req, res) => {
+  res.json({ 
+    message: "🚀 Server is running successfully!", 
+    // endpoints: {
+    //   auth: "/api/auth",
+    //   users: "/api/users"
+    // }
+  });
+});
+ 
+
+
+
+// auth routes
+app.use("/api/auth", authRoutes); // http://10.201.216.212/3000/api/auth/signup
+
+// users route
+app.use("/api", userRoutes);
 
 
 
@@ -72,7 +88,7 @@ app.use("/api/users", userRoutes);
 
     // "server": "nodemon server.js",
 
-const PORT = process.env.PORT || "5000";
+const PORT = process.env.PORT || 3000;
 server.listen(PORT, () => { 
   // const ip = getIPV4();
   console.log(`✅ Server running on:`, PORT);
@@ -80,7 +96,6 @@ server.listen(PORT, () => {
   // console.log(`   • Localhost: http://localhost:${PORT}`);
   // console.log(`   • LAN:       http://${ip}:${PORT}`);
 });
-
 
 
 
@@ -101,9 +116,6 @@ server.listen(PORT, () => {
 //   });
 // });
 
-// server.listen(3000, () => {
-//   console.log('Server running on port 3000');
-// });
 
 
 

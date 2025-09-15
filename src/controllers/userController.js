@@ -1,10 +1,13 @@
 
-
 const { messages } = require("../models/messages");
 const { users } = require("../models/users");
 
-function getUsers(req, res) {
-  const enhancedUsers = users.map(u => {
+class UserController {
+  constructor() {}
+  // Get users with last message
+  static getUsers(req, res) {
+    console.log("🚀 Get Users endpoint hit!");
+  const usersList = users.map(u => {
     // find last message between loggedInUser and this user
     const lastMsg = messages
       .filter(m => m.sender === u.userId || m.receiver === u.userId)
@@ -16,7 +19,11 @@ function getUsers(req, res) {
     };
   });
 
-  res.json({ users: enhancedUsers });
+  res.json(usersList);
+}
 }
 
-module.exports = { getUsers };
+
+
+
+module.exports = { UserController };

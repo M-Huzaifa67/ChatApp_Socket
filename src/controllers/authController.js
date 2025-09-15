@@ -1,36 +1,41 @@
-const { messages } = require("../models/messages");
 const { users } = require("../models/users");
-const { generateId } = require("../utils/generateId");
+const jwt = require("jsonwebtoken");
 
-// Signup
-function signup(req, res) {
-    // return res.json({
-    //     messages: "Signed up success"
-    // });
-    const { userId, username } = req.body;
+class AuthController {
+  constructor() {}
 
-    if (!username || !userId) {
-        return res.status(400).json({ error: "All fields required" });
-    }
+  // Signup
+static signup(req, res) {
+  console.log("🚀 Signup endpoint hit!");
+  console.log("📝 Request body:", req.body);
+  // console.log("📝 Headers:", req.headers);
 
-    const existing = users.find(u => u.userId === userId);
-    if (existing) {
-        return res.status(200).json({ user: existing }); // ✅ return same user instead of adding again
-    }
+  const { userId, username, email, password } = req.body;
 
-    const newUser = {
-        // id: generateId(),
-        userId,
-        username,
-    };
+  if (!userId || !username || !email || !password) {
+    return res.status(400).json({ error: "required all signup fields" });
+  }
 
-    users.push(newUser);
-    console.log(username, "registered success");
-    return res.json({ message: "User registered", user: newUser });
+  // check if user already exists
+  let user = users.find(u => u.userId === userId);
+  if (user) {
+    const jwtToken = jwt.sign({ userId: user.userId }, "SECRET_KEY");
+    return res.json({ user, jwtToken });
+  }
+
+
+  const jwtToken = jwt.sign({ userId: userId }, "SECRET_KEY");
+
+  user = {userId,username,email,password,jwtToken,socketId:"",online:false,lastMessage:"",avatarUrl:""};
+  users.push(user);
+
+  return res.json(user);
 }
 
-// Login (dummy, just checks username exists)
-function login(req, res) {
+
+
+static login(req, res) {
+    console.log("🚀 Login endpoint hit!");
     const { username } = req.body;
 
     const user = users.find((u) => u.username === username);
@@ -38,7 +43,15 @@ function login(req, res) {
         return res.status(404).json({ error: "User not found" });
     }
 
-    return res.json({ message: "Login successful", user });
+    return res.json(user);
 }
 
-module.exports = { signup, login };
+}
+
+
+
+
+
+
+
+module.exports = { AuthController};
